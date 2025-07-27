@@ -1,0 +1,27 @@
+---
+import { AnimatedCard } from "./AnimatedCard";
+interface Props {
+  title: string;
+  subtitle: string;
+}
+const { title, subtitle } = Astro.props;
+---
+
+<AnimatedCard client:visible>
+  <div class="header-container">
+    <h2>{title}</h2>
+    <p>{subtitle}</p>
+  </div>
+</AnimatedCard>
+
+<style>
+  .header-container {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+  .header-container p {
+    color: #aaa;
+    max-width: 600px;
+    margin: 0.5rem auto 0;
+  }
+</style>

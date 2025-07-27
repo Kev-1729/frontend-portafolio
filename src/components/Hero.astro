@@ -1,0 +1,222 @@
+---
+import { AnimatedHeroContent } from "./AnimatedHeroContent";
+---
+
+<section class="hero-container">
+  <div class="video-background">
+    <video autoplay loop muted playsinline>
+      <source src="/background-video.mp4" type="video/mp4" />
+      Tu navegador no soporta videos.
+    </video>
+  </div>
+
+  <div class="ethereal-glow"></div>
+
+  <div class="hero-grid">
+    <AnimatedHeroContent client:load className="text-left">
+      <h1>Ingeniero</h1>
+      <p>Creador de soluciones digitales robustas y escalables.</p>
+    </AnimatedHeroContent>
+
+    <div class="image-container">
+      <img
+        src="/images/profile.png"
+        alt="Foto de [Tu Nombre]"
+        class="profile-image"
+      />
+    </div>
+
+    <AnimatedHeroContent client:load className="text-right">
+      <h1>Software</h1>
+      <p>
+        Apasionado por la tecnología y el diseño de experiencias de usuario.
+      </p>
+    </AnimatedHeroContent>
+  </div>
+
+  <div class="scroll-indicator">
+    <a href="#projects" aria-label="Ir a proyectos">
+      <div class="arrow"></div>
+    </a>
+  </div>
+</section>
+
+<style>
+  .hero-container {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 1rem;
+  }
+
+  .video-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .video-background video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Nuevo: El resplandor etéreo detrás del personaje */
+  .ethereal-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 70vw;
+    height: 70vw;
+    max-width: 800px;
+    max-height: 800px;
+    transform: translate(-50%, -60%); /* Lo movemos un poco hacia arriba */
+    background: radial-gradient(
+      circle,
+      var(--color-secondary) 0%,
+      rgba(0, 200, 255, 0.2) 35%,
+      rgba(3, 0, 20, 0) 70%
+    );
+    opacity: 0.4;
+    z-index: 2; /* Se posiciona entre el video y el contenido */
+    animation: slow-pulse 12s infinite alternate ease-in-out;
+  }
+
+  /* Capa oscura sobre el video y el resplandor para dar contraste */
+  .video-background::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to bottom,
+      rgba(3, 0, 20, 0.4),
+      rgba(3, 0, 20, 0.85)
+    );
+    z-index: 3; /* Sobre el resplandor */
+  }
+
+  .hero-grid {
+    position: relative;
+    z-index: 4; /* El contenido principal siempre al frente */
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    align-items: center;
+    justify-items: center;
+    width: 100%;
+    max-width: 1400px;
+    height: 80%;
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .hero-grid {
+      grid-template-columns: 1fr auto 1fr;
+      grid-template-rows: 1fr;
+      text-align: left;
+    }
+  }
+
+  .image-container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .profile-image {
+    width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    object-position: bottom;
+    filter: drop-shadow(0 5px 30px rgba(0, 0, 0, 0.6));
+  }
+
+  .text-left,
+  .text-right {
+    padding: 2rem;
+  }
+
+  .text-left {
+    justify-self: start;
+  }
+
+  .text-right {
+    justify-self: end;
+    text-align: right;
+  }
+
+  .text-left h1,
+  .text-right h1 {
+    font-size: clamp(3rem, 8vw, 7rem);
+    line-height: 1;
+    color: white;
+    font-weight: 700;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+  }
+
+  .text-left p,
+  .text-right p {
+    max-width: 300px;
+    color: #ccc;
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 5;
+  }
+
+  .scroll-indicator a {
+    display: block;
+  }
+
+  .arrow {
+    width: 24px;
+    height: 24px;
+    border-left: 2px solid white;
+    border-bottom: 2px solid white;
+    transform: rotate(-45deg);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: rotate(-45deg) translate(0, 0);
+      opacity: 0.5;
+    }
+    50% {
+      transform: rotate(-45deg) translate(-10px, -10px);
+      opacity: 1;
+    }
+    100% {
+      transform: rotate(-45deg) translate(0, 0);
+      opacity: 0.5;
+    }
+  }
+
+  @keyframes slow-pulse {
+    from {
+      transform: translate(-50%, -60%) scale(0.9);
+      opacity: 0.3;
+    }
+    to {
+      transform: translate(-50%, -60%) scale(1.1);
+      opacity: 0.5;
+    }
+  }
+</style>
