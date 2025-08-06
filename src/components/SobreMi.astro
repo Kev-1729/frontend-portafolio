@@ -1,0 +1,44 @@
+---
+// src/components/SobreMi.astro
+---
+
+<section id="sobre-mi">
+  <div class="grid-layout">
+    <div class="text-content reveal">
+      <h2>Sobre Mí</h2>
+      <p>
+        Desde que escribí mi primer "¡Hola, Mundo!", quedé fascinado por el
+        poder del código para dar vida a las ideas. Con más de [X] años de
+        experiencia, he tenido el privilegio de trabajar en proyectos
+        desafiantes que van desde startups ágiles hasta grandes corporaciones,
+        siempre enfocado en la calidad y el rendimiento.
+      </p>
+      <p>
+        Fuera del código, me encontrarás explorando las últimas tendencias en IA
+        generativa, contribuyendo a proyectos de código abierto o disfrutando de
+        un buen café en algún rincón de Lima.
+      </p>
+    </div>
+    <div class="image-content reveal" style="transition-delay: 200ms;">
+      <img src="/images/experience/exp1.jpg" alt="Imagen sobre mi" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  @media (min-width: 768px) {
+    .grid-layout {
+      grid-template-columns: 2fr 1fr;
+    }
+  }
+  .image-content img {
+    width: 100%;
+    border-radius: var(--radius-md);
+  }
+</style>

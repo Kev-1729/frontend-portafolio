@@ -1,0 +1,182 @@
+---
+// src/components/Projects.astro
+const proyectos = [
+  {
+    titulo: "Plataforma de IA Generativa",
+    descripcion: "UI para un modelo de IA.",
+    // Asegúrate que tus imágenes estén en /public/projects/
+    imgSrc: "/images/projects/proj1.jpg",
+  },
+  {
+    titulo: "E-commerce con Realidad Aumentada",
+    descripcion: "Tienda online con vista de productos en AR.",
+    imgSrc: "/images/projects/proj1.jpg",
+  },
+  {
+    titulo: "Dashboard de Análisis de Datos",
+    descripcion: "Visualización de datos en tiempo real.",
+    imgSrc: "/images/projects/proj1.jpg", // Usando un placeholder general
+  },
+  {
+    titulo: "App de Meditación y Mindfulness",
+    descripcion: "Interfaz serena y minimalista.",
+    imgSrc: "/images/projects/proj1.jpg",
+  },
+];
+---
+
+<section id="proyectos" class="projects-section">
+  <div class="header-space">
+    <h2>Proyectos Destacados</h2>
+  </div>
+
+  <div class="projects-sticky-container">
+    <div class="projects-scroller">
+      {
+        proyectos.map((proj, index) => (
+          <div class="project-card-wrapper" data-card>
+            <div class="project-card">
+              <img src={proj.imgSrc} alt={proj.titulo} loading="lazy" />
+              <div class="card-overlay">
+                <div class="card-content">
+                  <h3>{proj.titulo}</h3>
+                  <p>{proj.descripcion}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const cards = document.querySelectorAll("[data-card]");
+    if (cards.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const card = entry.target as HTMLElement;
+          const cardInner = card.querySelector(".project-card") as HTMLElement;
+          const index = Array.from(cards).indexOf(card);
+
+          if (entry.isIntersecting) {
+            // Aplica transformaciones basadas en la posición del scroll dentro del elemento
+            const ratio = entry.intersectionRatio;
+            const scale = 0.9 + 0.1 * ratio; // Escala de 0.9 a 1
+            const opacity = 0.5 + 0.5 * ratio; // Opacidad de 0.5 a 1
+
+            cardInner.style.transform = `scale(${scale})`;
+            cardInner.style.opacity = `${opacity}`;
+          } else {
+            // Estado cuando no está en la vista principal
+            cardInner.style.transform = "scale(0.9)";
+            cardInner.style.opacity = "0.5";
+          }
+        });
+      },
+      {
+        threshold: Array.from(Array(101).keys()).map((i) => i / 100), // Observa cada 1% de visibilidad
+      }
+    );
+
+    cards.forEach((card) => {
+      observer.observe(card);
+    });
+  });
+</script>
+
+<style>
+  .projects-section {
+    padding: 0;
+    /* Un alto generoso para permitir el scroll */
+    min-height: 400vh;
+    position: relative;
+    background-color: #000;
+  }
+
+  .header-space {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 5vw;
+  }
+
+  .projects-sticky-container {
+    /* El contenedor se pega a la parte superior de la ventana */
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .projects-scroller {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    gap: 4vmin;
+    width: max-content;
+  }
+
+  .project-card-wrapper {
+    width: 40vw; /* Ancho de las tarjetas */
+    max-width: 600px;
+    height: 60vh;
+    flex-shrink: 0;
+  }
+
+  .project-card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    transform-origin: center center;
+    transform: scale(0.9);
+    opacity: 0.5;
+    transition:
+      transform 0.4s ease-out,
+      opacity 0.4s ease-out;
+  }
+
+  .project-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      transparent 60%,
+      rgba(0, 0, 0, 0.8) 100%
+    );
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .card-content {
+    padding: 2rem;
+    color: #fff;
+  }
+
+  .card-content h3 {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-content p {
+    font-size: 1rem;
+    color: var(--color-gray);
+  }
+</style>

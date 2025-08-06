@@ -1,14 +1,44 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Hero from "../components/Hero.astro";
-import Projects from "../components/Projects.astro";
-import Experience from "../components/Experience.astro";
+import SobreMi from "../components/SobreMi.astro";
+import Experiencia from "../components/Experiencia.astro";
+import Proyectos from "../components/Proyectos.astro";
+// El componente Contacto de la V1 sigue siendo válido
+import Contacto from "../components/Contacto.astro";
 ---
 
-<Layout title="Portafolio | [Tu Nombre]">
+<Layout title="Portafolio Profesional V2 | [Tu Nombre]">
   <main>
     <Hero />
-    <Projects />
-    <Experience />
+    <SobreMi />
+    <!--- <SobreMi />
+    <Experiencia />
+    <Proyectos />
+    <Contacto />-->
   </main>
 </Layout>
+
+<script>
+  // Script para revelar secciones al hacer scroll
+  document.addEventListener("DOMContentLoaded", () => {
+    const sections = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    sections.forEach((section) => {
+      // No aplicar al hero, ya tiene su propia animación
+      if (!section.closest(".hero-content")) {
+        observer.observe(section);
+      }
+    });
+  });
+</script>

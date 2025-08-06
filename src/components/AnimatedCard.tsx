@@ -1,5 +1,6 @@
-import { motion } from "framer-motion";
-import type { ReactNode } from "react";
+// src/components/AnimatedCard.tsx
+import { useState, useEffect, useRef } from 'react';
+import type { ReactNode } from 'react';
 
 interface Props {
   children: ReactNode;
@@ -7,18 +8,42 @@ interface Props {
 }
 
 export function AnimatedCard({ children, delay = 0 }: Props) {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      {
+        threshold: 0.1,
+      }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, []);
+
+  const style = {
+    transition: `opacity 0.6s ease-out ${delay}s, transform 0.6s ease-out ${delay}s`,
+    opacity: isVisible ? 1 : 0,
+    transform: isVisible ? 'none' : 'translateY(20px)',
+  };
+
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.5, y: 100 }}
-      whileInView={{ opacity: 1, scale: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{
-        duration: 0.8,
-        delay: delay,
-        ease: [0.25, 1, 0.5, 1],
-      }}
-    >
+    <div ref={ref} style={style}>
       {children}
-    </motion.div>
+    </div>
   );
 }
